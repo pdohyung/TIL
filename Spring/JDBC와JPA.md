@@ -1,7 +1,5 @@
 # 기본 개념
 
---- 
-
 ### JDBC
 
 JDBC(Java Database Connectivity)는 데이터베이스와 통신하기 위한 Java 표준 API다.  
@@ -13,9 +11,9 @@ JDBC는 데이터베이스 드라이버라는 추상화 계층을 제공하여, 
 JPA는 애플리케이션과 JDBC 사이에서 동작하며, 내부적으로 JDBC를 사용해 데이터베이스와 통신한다.  
 JPA는 인터페이스로 정의된 표준 기술이며, Hibernate는 이를 구현한 대표적인 프레임워크다.
 
-# 특징
+![](images/JDBC와JPA_1.png)
 
----
+# 특징
 
 ### JDBC
 
