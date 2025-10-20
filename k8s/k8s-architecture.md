@@ -81,7 +81,43 @@ cat /etc/kubernetes/manifests/kube-scheduler.yaml # 설정 파일 - kubeadm
 ps aux | grep kube-scheduler # 실행 옵션 확인 
 ```
 
-### Pod
+## Kubelet
+
+### 동작
+
+kubelet은 kube-apiserver와 통신하며 아래와 같은 역할을 수행한다.
+
+```bash
+1. API 서버를 감시하며 자신한테 할당된 파드의 정보를 받는다. (kube-scheduler가 할당한 pod)
+2. 이 정보를 바탕으로 컨테이너 런타임에서 필요한 이미지를 가져와, 컨테이너를 생성, 실행, 중지하는 등 라이프사이클을 관리한다.
+3. 요청이 잘 지켜지는 지 확인하고, 이후에 node와 컨테이너 상태를 모니터링하여 보고한다.
+```
+
+### 조회
+
+```bash
+# kubeadm은 kubelet을 자동으로 설치해주지 않는다. 따라서 각 work node에 수동으로 설치해야 한다.
+ps -aux | grep kubelet # 실행 중인 kubelet 프로세스와 옵션 조회
+```
+
+## Kube Proxy
+
+### 동작
+
+```bash
+1. kube proxy는 kube-apiserver를 감시하며 새로운 서비스 및 endpoint 정보를 확인한다.
+2. 서비스와 endpoint 정보를 바탕으로 node 내부에 IPtables 네트워크 규칙을 설정한다.
+3. 규칙에 따라 서비스의 가상 IP(Cluster IP)로 들어오는 트래픽을 해당 서비스에 속한 백엔드 Pod들 중 하나로 로드밸런싱한다.
+```
+
+### 조회
+
+```bash
+kubectl get pods -n kube-system # 각 node에 kube proxy가 pod로 배포되어 있다.
+kubectl get daemonset -n kube-system # 실제로 daemonset으로 배포되므로 각 node에는 항상 단일 pod가 배포된다.
+```
+
+## Pod
 
 목표 → 클러스터의 워커 노드에 컨테이너 형태로 애플리케이션을 배포하는 것
 
