@@ -149,3 +149,26 @@ kubectl get daemonset -n kube-system # 실제로 daemonset으로 배포되므로
 
 - 특히 api server는 etcd 클러스터와 유일하게 상호작용하는 컴포넌트다.
 - 나머지 컴포넌트는 api server에 전달하여 etcd 클러스터의 업데이트를 수행한다.
+
+### YAML
+
+- 쿠버네티스는 Pod, Replica, Deployment, Service 등과 같은 오브젝트를 생성하기 위한 입력으로 yaml 파일을 사용한다.
+- 쿠버네티스 정의 파일에는 항상 apiVersion, kind, metadata, spec이 포함된다.
+
+  | Kind | apiVersion | 
+  | --- |------------|
+  | Pod | v1         |
+  | Service | v1         |
+  | ReplicaSet | apps/v1    |
+  | Deployment | apps/v1    |
+
+- `metadata`는 이름, 레이블 등과 같은 개체에 대한 데이터다. (사전 형식, key-value 형식)
+    - 라벨을 미리 지정하면, 프론트엔드, 백엔드, 데이터베이스 등 라벨을 기준으로 필터링할 수 있다.
+- `spec`은 오브젝트의 상태, 구체적인 설정을 정의한다. `kind`에 따라 달라진다.
+    - Pod의 경우는 컨테이너 이미지, 포트 등을 정의한다. 여러 컨테이너를 `-` 로 구분하여 정의할 수 있다.
+
+```shell
+kubectl create -f pod-definition.yml # pod 생성
+kubeclt get pods
+kubectl describe pod myapp-pod
+```
